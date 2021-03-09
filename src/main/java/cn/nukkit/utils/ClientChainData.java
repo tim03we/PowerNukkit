@@ -111,6 +111,12 @@ public final class ClientChainData implements LoginChainData {
         return xuid;
     }
 
+    @Override
+    public void setXUID(String xuid) {
+        this.xuid = xuid;
+    }
+
+
     private boolean xboxAuthed;
 
     @Override

@@ -2009,6 +2009,16 @@ public class Server {
                     break;
                 }
             }
+            if (player.getDisplayName().toLowerCase().startsWith(name)) {
+                int curDelta = player.getDisplayName().length() - name.length();
+                if (curDelta < delta) {
+                    found = player;
+                    delta = curDelta;
+                }
+                if (curDelta == 0) {
+                    break;
+                }
+            }
         }
 
         return found;
@@ -2017,7 +2027,7 @@ public class Server {
     public Player getPlayerExact(String name) {
         name = name.toLowerCase();
         for (Player player : this.getOnlinePlayers().values()) {
-            if (player.getName().toLowerCase().equals(name)) {
+            if (player.getName().toLowerCase().equals(name) | player.getDisplayName().toLowerCase().equals(name)) {
                 return player;
             }
         }
