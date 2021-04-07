@@ -122,7 +122,7 @@ public class InventoryTransactionPacket extends DataPacket {
 
         this.transactionType = (int) this.getUnsignedVarInt();
 
-        this.hasNetworkIds = this.getBoolean();
+        this.hasNetworkIds = false;
 
         int length = (int) this.getUnsignedVarInt();
         Collection<NetworkInventoryAction> actions = new ArrayDeque<>();
