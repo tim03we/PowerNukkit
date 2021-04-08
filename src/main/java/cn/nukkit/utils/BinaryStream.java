@@ -408,16 +408,16 @@ public class BinaryStream {
         String[] canPlace;
         String[] canBreak;
 
-        try (LittleEndianByteBufInputStream stream = new LittleEndianByteBufInputStream(buf); NBTInputStream nbtStream = new NBTInputStream(stream)) {
+        try (LittleEndianByteBufInputStream stream = new LittleEndianByteBufInputStream(buf)) {
             int nbtSize = stream.readShort();
 
             CompoundTag compoundTag = null;
             if (nbtSize > 0) {
-                compoundTag = (CompoundTag) Tag.readNamedTag(nbtStream);
+                compoundTag = NBTIO.read(stream, ByteOrder.LITTLE_ENDIAN);
             } else if (nbtSize == -1) {
                 int tagCount = stream.readUnsignedByte();
                 if (tagCount != 1) throw new IllegalArgumentException("Expected 1 tag but got " + tagCount);
-                compoundTag = (CompoundTag) Tag.readNamedTag(nbtStream);
+                compoundTag = NBTIO.read(stream, ByteOrder.LITTLE_ENDIAN);
             }
 
 
@@ -481,7 +481,7 @@ public class BinaryStream {
         this.putSlot(item, false);
     }
 
-    public void putSlot(Item item, boolean crafting) {
+    public void putSlot(Item item, boolean instanceItem) {
         if (item == null || item.getId() == 0) {
             putByte((byte) 0);
             return;
@@ -496,7 +496,7 @@ public class BinaryStream {
         putLShort(item.getCount());
         putUnsignedVarInt(item.getDamage());
 
-        if (!crafting) {
+        if (!instanceItem) {
             putBoolean(true);
             putVarInt(0);
         }
@@ -504,19 +504,19 @@ public class BinaryStream {
 
         if (item instanceof ItemBlock) {
             putVarInt(GlobalBlockPalette.getOrCreateRuntimeId(item.getBlock().getId(), item.getBlock().getDamage()));
-        } else if (crafting) {
+        } else if (instanceItem) {
             int runtimeId = GlobalBlockPalette.getOrCreateRuntimeId(item.getId(), item.getDamage());
             putVarInt(Math.max(runtimeId, 0));
         } else {
             putVarInt(0);
         }
         ByteBuf userDataBuf = ByteBufAllocator.DEFAULT.ioBuffer();
-        try (LittleEndianByteBufOutputStream stream = new LittleEndianByteBufOutputStream(userDataBuf);
-             NBTOutputStream nbtStream = new NBTOutputStream(stream)) {
+        try (LittleEndianByteBufOutputStream stream = new LittleEndianByteBufOutputStream(userDataBuf)) {
             if (item.hasCompoundTag()) {
                 stream.writeShort(-1);
                 stream.writeByte(1); // Hardcoded in current version
-                Tag.writeNamedTag(NBTIO.read(item.getCompoundTag(), ByteOrder.LITTLE_ENDIAN), nbtStream);
+                item.getCompoundTag();
+                stream.write(item.getCompoundTag());
             } else {
                 userDataBuf.writeShortLE(0);
             }
