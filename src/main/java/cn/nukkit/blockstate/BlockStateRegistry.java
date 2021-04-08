@@ -400,7 +400,7 @@ public class BlockStateRegistry {
     private void registerStateId(CompoundTag state, int runtimeId) {
         CompoundTag block = state.getCompound("block");
         String stateId = getStateId(block);
-        Registration registration = new Registration(null, runtimeId, block);
+        Registration registration = new Registration(null, runtimeId, block); // test
         
         Registration old = stateIdRegistration.putIfAbsent(stateId, registration);
         if (old != null && !old.equals(registration)) {
