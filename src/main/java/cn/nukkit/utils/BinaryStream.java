@@ -468,10 +468,7 @@ public class BinaryStream {
                 }
                 namedTag.put("CanPlaceOn", listTag);
             }
-
-
             item.setNamedTag(namedTag);
-
         }
 
         return item;
