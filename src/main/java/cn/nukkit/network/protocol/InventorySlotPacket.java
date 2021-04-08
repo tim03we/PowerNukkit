@@ -31,6 +31,6 @@ public class InventorySlotPacket extends DataPacket {
         this.reset();
         this.putUnsignedVarInt(this.inventoryId);
         this.putUnsignedVarInt(this.slot);
-        this.putSlot(this.item);
+        this.putSlot(this.item, true);
     }
 }
