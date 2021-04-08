@@ -1192,11 +1192,11 @@ public class Item implements Cloneable, BlockID, ItemID {
         }
     }
 
-    @PowerNukkitOnly
+    /*@PowerNukkitOnly
     @Since("1.4.0.0-PN")
     public final int getNetworkId() throws UnknownNetworkIdException {
         return RuntimeItems.getNetworkId(getNetworkFullId());
-    }
+    }*/
     
     @PowerNukkitOnly
     @Since("1.3.2.0-PN")
@@ -1502,5 +1502,9 @@ public class Item implements Cloneable, BlockID, ItemID {
         } catch (CloneNotSupportedException e) {
             return null;
         }
+    }
+
+    public final int getNetworkId() {
+        return RuntimeItems.getNetworkId(RuntimeItems.getRuntimeMapping().getNetworkFullId(this));
     }
 }

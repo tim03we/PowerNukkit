@@ -119,7 +119,7 @@ public class CraftingDataPacket extends DataPacket {
                         this.putRecipeIngredient(ingredient);
                     }
                     this.putUnsignedVarInt(1);
-                    this.putSlot(shapeless.getResult());
+                    this.putSlot(shapeless.getResult(), true);
                     this.putUUID(shapeless.getId());
                     this.putString(recipe.getType() == RecipeType.CARTOGRAPHY ? CRAFTING_TAG_CARTOGRAPHY_TABLE : CRAFTING_TAG_CRAFTING_TABLE);
                     this.putVarInt(shapeless.getPriority());
@@ -141,7 +141,7 @@ public class CraftingDataPacket extends DataPacket {
                     outputs.addAll(shaped.getExtraResults());
                     this.putUnsignedVarInt(outputs.size());
                     for (Item output : outputs) {
-                        this.putSlot(output);
+                        this.putSlot(output, true);
                     }
                     this.putUUID(shaped.getId());
                     this.putString(CRAFTING_TAG_CRAFTING_TABLE);

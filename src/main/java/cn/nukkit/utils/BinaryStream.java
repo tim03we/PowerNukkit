@@ -1,5 +1,6 @@
 package cn.nukkit.utils;
 
+import cn.nukkit.block.Block;
 import cn.nukkit.entity.Attribute;
 import cn.nukkit.entity.data.Skin;
 import cn.nukkit.item.*;
@@ -499,14 +500,17 @@ public class BinaryStream {
         }
 
 
-        if (item instanceof ItemBlock) {
+        /*if (item instanceof ItemBlock) {
             putVarInt(GlobalBlockPalette.getOrCreateRuntimeId(item.getBlock().getId(), item.getBlock().getDamage()));
         } else if (instanceItem) {
             int runtimeId = GlobalBlockPalette.getOrCreateRuntimeId(item.getId(), item.getDamage());
             putVarInt(Math.max(runtimeId, 0));
         } else {
             putVarInt(0);
-        }
+        }*/
+        Block block = item.getBlock();
+        int runtimeId = GlobalBlockPalette.getOrCreateRuntimeId(block.getId(), block.getDamage()/*, true*/);
+        putVarInt(Math.max(runtimeId, 0)); // put 0 if not in the palette
         ByteBuf userDataBuf = ByteBufAllocator.DEFAULT.ioBuffer();
         try (LittleEndianByteBufOutputStream stream = new LittleEndianByteBufOutputStream(userDataBuf)) {
             if (item.hasCompoundTag()) {

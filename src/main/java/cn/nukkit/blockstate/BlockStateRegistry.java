@@ -291,7 +291,7 @@ public class BlockStateRegistry {
         if (state.getBlockId() == BlockID.AIR) {
             Registration airRegistration = blockStateRegistration.get(BlockState.AIR);
             if (airRegistration != null) {
-                return new Registration(state, airRegistration.runtimeId, null);
+                //return new Registration(state, airRegistration.runtimeId, null);
             }
         }
         
@@ -521,7 +521,7 @@ public class BlockStateRegistry {
         @Nullable
         private BlockState state;
         
-        private final int runtimeId;
+        private int runtimeId;
         
         @Nullable
         private CompoundTag originalBlock;

@@ -114,9 +114,9 @@ public class NetworkInventoryAction {
         this.oldItem = packet.getSlot();
         this.newItem = packet.getSlot();
 
-        if (packet.hasNetworkIds) {
+        /*if (packet.hasNetworkIds) {
             this.stackNetworkId = packet.getVarInt();
-        }
+        }*/
         return this;
     }
 
@@ -140,9 +140,9 @@ public class NetworkInventoryAction {
         packet.putSlot(this.oldItem);
         packet.putSlot(this.newItem);
 
-        if (packet.hasNetworkIds) {
+        /*if (packet.hasNetworkIds) {
             packet.putVarInt(this.stackNetworkId);
-        }
+        }*/
     }
 
     public InventoryAction createInventoryAction(Player player) {
